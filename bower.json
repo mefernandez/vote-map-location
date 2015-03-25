@@ -1,0 +1,23 @@
+{
+  "name": "vote-map-location",
+  "version": "0.0.0",
+  "homepage": "https://github.com/mefernandez/vote-map-location",
+  "authors": [
+    "Mariano Fernández <mariano.fernandez@gmail.com>"
+  ],
+  "description": "An example of using Google Maps API and a datastore to vote locations",
+  "main": "public/javascripts/main.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "handlebars": "~3.0.0",
+    "jquery": "~2.1.3"
+  }
+}

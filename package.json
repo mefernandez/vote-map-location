@@ -1,0 +1,36 @@
+{
+  "name": "vote-map-location",
+  "version": "0.0.1",
+  "private": true,
+  "description": "An example of using Google Maps API and a datastore to vote locations",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mefernandez/vote-map-location.git"
+  },
+  "keywords": [
+    "google",
+    "maps",
+    "api"
+  ],
+  "author": "mefernandez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mefernandez/vote-map-location/issues"
+  },
+  "homepage": "https://github.com/mefernandez/vote-map-location",
+  "dependencies": {
+    "express": "3.4.8",
+    "jade": "*",
+    "connect-livereload": "^0.5.3",
+    "main-bower-files": "^2.6.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-express": "^0.3.5",
+    "connect-livereload": "^0.5.3"
+  }
+}
