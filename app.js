@@ -10,6 +10,7 @@ var locations = require('./routes/locations');
 var login = require('./routes/login');
 var http = require('http');
 var path = require('path');
+var bodyParser = require('body-parser');
 
 var app = express();
 
@@ -42,6 +43,7 @@ app.post('/locations/:id/vote', locations.vote);
 app.get('/locations/:id/votes', locations.votesCount);
 app.get('/users', user.list);
 app.get('/oauth2callback', login.oauth2callback);
+app.post('/storeauthcode', bodyParser.raw(), login.storeauthcode);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

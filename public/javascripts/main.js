@@ -1,3 +1,14 @@
+
+$(function() {
+
+  $('#signinButton').click(function() {
+    // signInCallback defined in step 7.
+    auth2.grantOfflineAccess({'redirect_uri': 'postmessage'}).then(signInCallback);
+  });
+
+});
+
+
 /**
  * This object holds the data upon which the business logic is performed.
  */
@@ -73,10 +84,3 @@ function voteFor(id) {
   });
 }
 
-function onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId());
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail());
-}
