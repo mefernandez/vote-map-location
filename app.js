@@ -38,12 +38,14 @@ if ('development' == app.get('env')) {
 app.use(require('connect-livereload')());
 
 app.get('/', routes.index);
+app.get('/locations/votes', bodyParser.json(), locations.list);
 app.get('/locations/:id/vote', locations.vote);
 app.post('/locations/:id/vote', locations.vote);
 app.get('/locations/:id/votes', locations.votesCount);
 app.get('/users', user.list);
 app.get('/oauth2callback', login.oauth2callback);
 app.post('/storeauthcode', bodyParser.raw(), login.storeauthcode);
+app.post('/storeprofile', bodyParser.json(), login.storeprofile);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

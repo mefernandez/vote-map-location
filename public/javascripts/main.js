@@ -1,10 +1,6 @@
 
 $(function() {
 
-  $('#signinButton').click(function() {
-    // signInCallback defined in step 7.
-    auth2.grantOfflineAccess({'redirect_uri': 'postmessage'}).then(signInCallback);
-  });
 
 });
 
@@ -15,7 +11,6 @@ $(function() {
 var App = {
 
   locations: [
-    {id: 12, votes: 0, lat: 39.4926944, lng: -0.4007434, title: 'Oficina en Congresos', link: 'http://www.fotocasa.es/oficina/valencia-capital/valencia-ciudad-aire-acondicionado-calefaccion-parking-ascensor-barrio-de-benicalap-134609181?opi=140&tti=3&ppi=3&pagination=1&RowGrid=12&tta=8', img: 'http://images.inmofactory.com/inmofactory/documents/1/83926/7009271/41816599.jpg/w_0/c_690x518/p_1/'}
   ],
 
   markerInfoTemplate: null,
@@ -67,20 +62,26 @@ function initialize() {
     zoom: 14
   };
   var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-  App.loadMarkerInfoTemplate();
-  App.paintMarkers(map);
+  $.get("locations/votes")
+    .done(function(res) {
+      console.log(res);
+      App.locations = res;
+      App.loadMarkerInfoTemplate();
+      App.paintMarkers(map);
+    })
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 
-function voteFor(id) {
+function voteFor(id, button) {
   $.post( "locations/" + id + "/vote", function() {
     //alert( "success" );
   })
-  .done(function() {
-    alert( "second success" );
+  .done(function(res) {
+    console.log(res);
+    $(button).closest(".location-info").search(".vote-count").text(res.votes);
   })
-  .fail(function() {
-    alert( "error" );
+  .fail(function(res) {
+    alert(res.responseText);
   });
 }
 
