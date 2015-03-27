@@ -1,3 +1,4 @@
+var locations = require("../repositories/locations-repository.js");
 
 var votesByLocation = [
     {id: 1, votes: 0, lat: 39.4821544, lng: -0.3833446, title: 'Oficina con buena pinta', link: 'http://www.idealista.com/inmueble/2207540/', img: 'http://img2.idealista.com/thumbs?wi=850&he=0&en=1TV1Rvu8EF9FDdUxKy%2BhTKXEjTHEvkjC%2B1txKXwH%2BPB2ZiUpK%2BiR29LCAEPsglRvyRHVwaTNHx9Y1um%2BLtyY4DRUT2xZ1lErfbLUUq%2BYReGOOeuOyLJoEPyllGFJY2T3TTDFVQc6cWezvEJYmdQuKMUN53GBzwC2krx5ih6pgRV5qULAvMTcetazodn%2FGRKN&ch=-127169377'},
@@ -27,32 +28,40 @@ exports.vote = function(req, res) {
   }
   var locationId = req.params.id;
   // Get the votes for a location id 
-  // or create a new vote object and store it if it doesn't exist 
-  var vote = votesByLocation[locationId];
-  if (!vote) {
-    vote = {id: locationId, votes: 0, users: [user]};
-    votesByLocation[locationId] = vote;
-  }
-  // Check the user did not already vote for this location
-  var userVote = votesByUser[user];
-  // If the user hasn't voted yet, create a new vote
-  if (!userVote) {
-    userVote = {user: user, locations: []};
-    votesByUser[user] = userVote;
-  } else if (userVote.locations.indexOf(locationId) > -1) {
+  locations.findById(locationId, null, function(docs, db) {
+    
+    if (docs.length < 1) {
+      db.close();
+      res.send(400, "Location does not exist with id " + locationId);
+      return;
+    }
+
+    var location = docs[0];
+
     // A user can't vote more than once for the same location
-    res.send(401, "Already voted for this location");
-    return;
-  }
-  // There's a limit to how many times a user can vote
-  if (userVote.locations.length > MAX_VOTES_PER_USER) {
-    res.send(401, "Number of votes exceeded");
-    return;
-  }
-  // Finally, +1
-  vote.votes++;
-  userVote.locations.push(locationId);
-  res.send(vote);
+    if (location.users.indexOf(user) > -1) {
+      db.close();
+      res.send(400, "Already voted for this location");
+      return;
+    }
+
+    // There's a limit to how many times a user can vote
+    locations.findByUser(user, null, function(docs, db) {
+      if (docs.length > MAX_VOTES_PER_USER) {
+        db.close();
+        res.send(400, "Number of votes exceeded, limit is " + MAX_VOTES_PER_USER);
+        return;
+      }
+
+      // Finally, +1
+      location.votes++;
+      location.users.push(user);
+      res.send(location);
+
+    });
+
+  });
+
 };
 
 exports.votesCount = function(req, res){
