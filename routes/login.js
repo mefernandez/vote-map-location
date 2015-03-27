@@ -5,6 +5,12 @@ exports.oauth2callback = function(req, res) {
   res.send("Ok");
 }
 
+exports.storeprofile = function(req, res) {
+  req.session.profile = req.body;
+  req.session.user = req.session.profile.id;
+  res.send(req.body);
+}
+
 exports.storeauthcode = function(req, res) {
   //console.log("req.body: " + req.body.toString());
   var code = req.body.toString();

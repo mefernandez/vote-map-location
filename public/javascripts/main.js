@@ -1,10 +1,6 @@
 
 $(function() {
 
-  $('#signinButton').click(function() {
-    // signInCallback defined in step 7.
-    auth2.grantOfflineAccess({'redirect_uri': 'postmessage'}).then(signInCallback);
-  });
 
 });
 
@@ -15,7 +11,6 @@ $(function() {
 var App = {
 
   locations: [
-    {id: 12, votes: 0, lat: 39.4926944, lng: -0.4007434, title: 'Oficina en Congresos', link: 'http://www.fotocasa.es/oficina/valencia-capital/valencia-ciudad-aire-acondicionado-calefaccion-parking-ascensor-barrio-de-benicalap-134609181?opi=140&tti=3&ppi=3&pagination=1&RowGrid=12&tta=8', img: 'http://images.inmofactory.com/inmofactory/documents/1/83926/7009271/41816599.jpg/w_0/c_690x518/p_1/'}
   ],
 
   markerInfoTemplate: null,
@@ -36,21 +31,25 @@ var App = {
       var lng = this.locations[i].lng;
       var myLatlng  = new google.maps.LatLng(lat,lng);
       var myTitle   = this.locations[i].title;
-      var myLink   = this.locations[i].link;
       var marker    = new google.maps.Marker({
                         position: myLatlng,
-                        title: myTitle
+                        title: myTitle,
+                        locationId: this.locations[i].id
                       });
 
       // To add the marker to the map, call setMap();
       marker.setMap(map);
-      marker.contentString  = this.markerInfoTemplate(this.locations[i]);
       
       google.maps.event.addListener(marker, 'click', function() {
-        var infowindow = new google.maps.InfoWindow({
-          content: this.contentString
-        });
-        infowindow.open(map,this);
+        $.get("/locations/" + marker.locationId + "/votes")
+          .done(function(res) {
+            var markerInfoTemplate = Handlebars.compile($('#marker-content-info-template').html());
+            var contentString  = markerInfoTemplate(res);
+            var infowindow = new google.maps.InfoWindow({
+              content: contentString
+            });
+            infowindow.open(map,this);
+          });
       });
     }
   }
@@ -67,20 +66,26 @@ function initialize() {
     zoom: 14
   };
   var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-  App.loadMarkerInfoTemplate();
-  App.paintMarkers(map);
+  $.get("locations/votes")
+    .done(function(res) {
+      console.log(res);
+      App.locations = res;
+      App.loadMarkerInfoTemplate();
+      App.paintMarkers(map);
+    });
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 
-function voteFor(id) {
+function voteFor(id, button) {
   $.post( "locations/" + id + "/vote", function() {
     //alert( "success" );
   })
-  .done(function() {
-    alert( "second success" );
+  .done(function(res) {
+    console.log(res);
+    $(button).closest(".location-info").find(".vote-count").text(res.votes);
   })
-  .fail(function() {
-    alert( "error" );
+  .fail(function(res) {
+    alert(res.responseText);
   });
 }
 
