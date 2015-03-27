@@ -31,21 +31,25 @@ var App = {
       var lng = this.locations[i].lng;
       var myLatlng  = new google.maps.LatLng(lat,lng);
       var myTitle   = this.locations[i].title;
-      var myLink   = this.locations[i].link;
       var marker    = new google.maps.Marker({
                         position: myLatlng,
-                        title: myTitle
+                        title: myTitle,
+                        locationId: this.locations[i].id
                       });
 
       // To add the marker to the map, call setMap();
       marker.setMap(map);
-      marker.contentString  = this.markerInfoTemplate(this.locations[i]);
       
       google.maps.event.addListener(marker, 'click', function() {
-        var infowindow = new google.maps.InfoWindow({
-          content: this.contentString
-        });
-        infowindow.open(map,this);
+        $.get("/locations/" + marker.locationId + "/votes")
+          .done(function(res) {
+            var markerInfoTemplate = Handlebars.compile($('#marker-content-info-template').html());
+            var contentString  = markerInfoTemplate(res);
+            var infowindow = new google.maps.InfoWindow({
+              content: contentString
+            });
+            infowindow.open(map,this);
+          });
       });
     }
   }
@@ -68,7 +72,7 @@ function initialize() {
       App.locations = res;
       App.loadMarkerInfoTemplate();
       App.paintMarkers(map);
-    })
+    });
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 
@@ -78,7 +82,7 @@ function voteFor(id, button) {
   })
   .done(function(res) {
     console.log(res);
-    $(button).closest(".location-info").search(".vote-count").text(res.votes);
+    $(button).closest(".location-info").find(".vote-count").text(res.votes);
   })
   .fail(function(res) {
     alert(res.responseText);
