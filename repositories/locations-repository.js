@@ -6,7 +6,6 @@ var url = 'mongodb://localhost:27017/vote-map-locations';
 exports.findById = function(id, db, callback) {
   if (!db) {
     // New connection
-    console.log("Connecting to server");
     MongoClient.connect(url, dbOperation);
   } else {
     // Reuse connection
@@ -20,8 +19,27 @@ exports.findById = function(id, db, callback) {
     // Find some documents
     collection.find({id: id}).toArray(function(err, docs) {
       assert.equal(err, null);
-      console.log("Found the following records");
-      console.dir(docs)
+      callback(docs, db);
+    });
+  }
+}
+
+exports.findByUser = function(user, db, callback) {
+  if (!db) {
+    // New connection
+    MongoClient.connect(url, dbOperation);
+  } else {
+    // Reuse connection
+    dbOperation(null, db);
+  }
+
+  function dbOperation(err, db) {
+    assert.equal(null, err);
+      // Get the documents collection
+    var collection = db.collection('locations');
+    // Find some documents
+    collection.find({users: { $in: [user] } }).toArray(function(err, docs) {
+      assert.equal(err, null);
       callback(docs, db);
     });
   }
@@ -30,7 +48,6 @@ exports.findById = function(id, db, callback) {
 exports.findAll = function(db, callback) {
   if (!db) {
     // New connection
-    console.log("Connecting to server");
     MongoClient.connect(url, dbOperation);
   } else {
     // Reuse connection
@@ -44,8 +61,6 @@ exports.findAll = function(db, callback) {
     // Find some documents
     collection.find({}).toArray(function(err, docs) {
       assert.equal(err, null);
-      console.log("Found the following records");
-      console.dir(docs)
       callback(docs, db);
     });
   }
@@ -54,7 +69,6 @@ exports.findAll = function(db, callback) {
 exports.save = function(location, db, callback) {
   if (!db) {
     // New connection
-    console.log("Connecting to server");
     MongoClient.connect(url, dbOperation);
   } else {
     // Reuse connection
@@ -68,7 +82,6 @@ exports.save = function(location, db, callback) {
     // Insert some documents
     collection.insert(location, function(err, result) {
       assert.equal(err, null);
-      console.log("Inserted 1 documents into the locations collection");
       callback(result, db);
     });
   }
@@ -77,7 +90,6 @@ exports.save = function(location, db, callback) {
 exports.deleteAll = function(db, callback) {
   if (!db) {
     // New connection
-    console.log("Connecting to server");
     MongoClient.connect(url, dbOperation);
   } else {
     // Reuse connection
@@ -91,7 +103,6 @@ exports.deleteAll = function(db, callback) {
     // Insert some documents
     collection.remove({ }, function(err, result) {
       assert.equal(err, null);
-      console.log("Removed all documents");
       callback(result, db);
     });
   }
