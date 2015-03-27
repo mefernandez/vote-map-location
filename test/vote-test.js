@@ -1,5 +1,6 @@
-var assert = require("assert");
-var locations = require("../routes/locations.js");
+var assert    = require("assert");
+var locations = require("../routes/vote");
+
 
 describe('A user voting for a location', function() {
 

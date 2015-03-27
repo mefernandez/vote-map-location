@@ -1,3 +1,4 @@
+
 var votesByLocation = [
     {id: 1, votes: 0, lat: 39.4821544, lng: -0.3833446, title: 'Oficina con buena pinta', link: 'http://www.idealista.com/inmueble/2207540/', img: 'http://img2.idealista.com/thumbs?wi=850&he=0&en=1TV1Rvu8EF9FDdUxKy%2BhTKXEjTHEvkjC%2B1txKXwH%2BPB2ZiUpK%2BiR29LCAEPsglRvyRHVwaTNHx9Y1um%2BLtyY4DRUT2xZ1lErfbLUUq%2BYReGOOeuOyLJoEPyllGFJY2T3TTDFVQc6cWezvEJYmdQuKMUN53GBzwC2krx5ih6pgRV5qULAvMTcetazodn%2FGRKN&ch=-127169377'},
     {id: 12, votes: 0, lat: 39.4926944, lng: -0.4007434, title: 'Oficina en Congresos', link: 'http://www.fotocasa.es/oficina/valencia-capital/valencia-ciudad-aire-acondicionado-calefaccion-parking-ascensor-barrio-de-benicalap-134609181?opi=140&tti=3&ppi=3&pagination=1&RowGrid=12&tta=8', img: 'http://images.inmofactory.com/inmofactory/documents/1/83926/7009271/41816599.jpg/w_0/c_690x518/p_1/'}
@@ -9,6 +10,7 @@ var MAX_VOTES_PER_USER = 3;
 exports.votesByLocation = votesByLocation;
 exports.votesByUser = votesByUser;
 exports.MAX_VOTES_PER_USER = MAX_VOTES_PER_USER;
+
 
 /* Add +1 to a location
  * @return
