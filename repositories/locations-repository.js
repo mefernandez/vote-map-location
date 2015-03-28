@@ -3,6 +3,11 @@ var assert = require("assert");
 
 var url = 'mongodb://localhost:27017/vote-map-location';
 
+// If URL for MongoLab is present as an env var, use it.
+if (!!process.env.MONGOLAB_URI) {
+  url = process.env.MONGOLAB_URI
+}
+
 exports.findById = function(id, db, callback) {
   if (!db) {
     // New connection

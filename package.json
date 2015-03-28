@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "description": "An example of using Google Maps API and a datastore to vote locations",
+  "engines": {
+      "node": "0.10.x"
+  },
   "main": "index.js",
   "scripts": {
     "start": "node app.js"
