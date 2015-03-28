@@ -30,3 +30,5 @@ bower_components
 
 # MongoDB data
 data
+locations.csv
+import-data.sh

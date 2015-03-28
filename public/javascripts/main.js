@@ -41,14 +41,15 @@ var App = {
       marker.setMap(map);
       
       google.maps.event.addListener(marker, 'click', function() {
-        $.get("/locations/" + marker.locationId + "/votes")
+        var that = this;
+        $.get("/locations/" + marker.locationId)
           .done(function(res) {
             var markerInfoTemplate = Handlebars.compile($('#marker-content-info-template').html());
             var contentString  = markerInfoTemplate(res);
             var infowindow = new google.maps.InfoWindow({
               content: contentString
             });
-            infowindow.open(map,this);
+            infowindow.open(map,that);
           });
       });
     }
@@ -66,7 +67,7 @@ function initialize() {
     zoom: 14
   };
   var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-  $.get("locations/votes")
+  $.get("locations")
     .done(function(res) {
       console.log(res);
       App.locations = res;

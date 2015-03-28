@@ -62,4 +62,22 @@ describe('A Locations Repository', function() {
     });
   });
 
+  it('should save one and and update one adding 1 vote and 1 user', function(done) {
+    var l = {id: 1, lat: 39.4821544, lng: -0.3833446, votes: 0, users: [], title: 'Oficina con buena pinta', link: 'http://www.idealista.com/inmueble/2207540/', img: 'http://img2.idealista.com/thumbs?wi=850&he=0&en=1TV1Rvu8EF9FDdUxKy%2BhTKXEjTHEvkjC%2B1txKXwH%2BPB2ZiUpK%2BiR29LCAEPsglRvyRHVwaTNHx9Y1um%2BLtyY4DRUT2xZ1lErfbLUUq%2BYReGOOeuOyLJoEPyllGFJY2T3TTDFVQc6cWezvEJYmdQuKMUN53GBzwC2krx5ih6pgRV5qULAvMTcetazodn%2FGRKN&ch=-127169377'};
+    locations.save(l, null, function(result, db) {
+      l.votes++;
+      l.users.push('test');
+      locations.update(l, db, function(result, db) {
+        locations.findByUser('test', db, function(docs, db) {
+          assert.equal(1, docs.length);
+          var updated = docs[0];
+          assert.equal(1, updated.votes);
+          assert.equal('test', updated.users[0]);
+          db.close();
+          done();
+        });
+      });
+    });
+  });
+
 });

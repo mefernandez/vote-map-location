@@ -8,7 +8,7 @@ exports.list = function(req, res) {
 }
 
 exports.getLocation = function(req, res) {
-  var locationId = req.params.id;
+  var locationId = parseInt(req.params.id);
   locations.findById(locationId, null, function(docs, db) {
     
     if (docs.length < 1) {
