@@ -13,7 +13,7 @@ function onSignIn(googleUser) {
 
   $.ajax({
     type: 'POST',
-    url: 'http://localhost:3000/storeprofile',
+    url: '/storeprofile',
     success: function(result) {
       // Handle or verify the server response.
       console.log(result);
@@ -35,7 +35,7 @@ function signInCallback(authResult) {
     // Send the code to the server
     $.ajax({
       type: 'POST',
-      url: 'http://localhost:3000/storeauthcode',
+      url: '/storeauthcode',
       contentType: 'application/octet-stream; charset=utf-8',
       success: function(result) {
         // Handle or verify the server response.
