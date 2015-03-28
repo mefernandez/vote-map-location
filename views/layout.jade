@@ -7,7 +7,7 @@ html
     script(src="https://apis.google.com/js/platform.js",async,defer)
     script#marker-content-info-template(type='text/x-handlebars-template').
       <div class="location-info">
-        <h1 class="firstHeading"><a href="{{link}}">{{title}}</a></h1>
+        <h1 class="firstHeading"><a href="{{link}}" target="_blank">{{title}}</a></h1>
         <div>Votes: <span class="vote-count">{{votes}}</span> <button class="plus1" onclick="voteFor({{id}}, this)">+1</button></div>
         <div><img src="{{img}}" width="160px"/></div>
       </div>    

@@ -42,7 +42,7 @@ var App = {
       
       google.maps.event.addListener(marker, 'click', function() {
         var that = this;
-        $.get("/locations/" + marker.locationId)
+        $.get("/locations/" + this.locationId)
           .done(function(res) {
             var markerInfoTemplate = Handlebars.compile($('#marker-content-info-template').html());
             var contentString  = markerInfoTemplate(res);
