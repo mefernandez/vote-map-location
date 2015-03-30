@@ -14,9 +14,9 @@ exports.storeprofile = function(req, res) {
 exports.storeauthcode = function(req, res) {
   //console.log("req.body: " + req.body.toString());
   var code = req.body.toString();
-  var client_id = '748960406594-l0rgulrbco42rn6j0g7ssr887dop65pr.apps.googleusercontent.com';
-  var client_secret = 'bjdIuGvew6NRaQXhgtJf7v49';
-  var redirect_uri = 'http://localhost:3000/oauth2callback';
+  var client_id = process.env.GOOGLE_CLIENT_ID;
+  var client_secret = process.env.GOOGLE_CLIENT_SECRET;
+  var redirect_uri = process.env.GOOGLE_REDIRECT_URI;
   var grant_type = 'authorization_code';
 
   request

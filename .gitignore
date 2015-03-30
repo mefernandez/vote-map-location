@@ -32,3 +32,5 @@ bower_components
 data
 locations.csv
 import-data.sh
+import-mongolab.sh
+setenv.sh

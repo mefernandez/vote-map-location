@@ -2,7 +2,7 @@ doctype html
 html
   head
     title= title
-    meta(name="google-signin-client_id", content="748960406594-l0rgulrbco42rn6j0g7ssr887dop65pr.apps.googleusercontent.com")
+    meta(name="google-signin-client_id", content=process.env.GOOGLE_CLIENT_ID)
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src="https://apis.google.com/js/platform.js",async,defer)
     script#marker-content-info-template(type='text/x-handlebars-template').
