@@ -2,9 +2,7 @@ doctype html
 html
   head
     title= title
-    meta(name="google-signin-client_id", content=process.env.GOOGLE_CLIENT_ID)
     link(rel='stylesheet', href='/stylesheets/style.css')
-    script(src="https://apis.google.com/js/platform.js",async,defer)
     script#marker-content-info-template(type='text/x-handlebars-template').
       <div class="location-info">
         <h1 class="firstHeading"><a href="{{link}}" target="_blank">{{title}}</a></h1>
@@ -17,5 +15,4 @@ html
     script(type='text/javascript', src='javascripts/main.js')
     script(type='text/javascript', src='javascripts/signin.js')
 body
-    div(class="g-signin2",data-onsuccess="onSignIn")
     div#map-canvas

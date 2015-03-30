@@ -43,8 +43,8 @@ app.get('/users', user.list);
 app.get('/oauth2callback', login.oauth2callback);
 app.get('/locations', bodyParser.json(), location.list);
 app.get('/locations/:id', bodyParser.json(), location.getLocation);
-app.get('/locations/:id/vote', vote.vote);
-app.post('/locations/:id/vote', vote.vote);
+app.get('/locations/:id/vote', express.basicAuth(login.authenticate), vote.vote);
+app.post('/locations/:id/vote', express.basicAuth(login.authenticate), vote.vote);
 app.post('/storeauthcode', bodyParser.raw(), login.storeauthcode);
 app.post('/storeprofile', bodyParser.json(), login.storeprofile);
 

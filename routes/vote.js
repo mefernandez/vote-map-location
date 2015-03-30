@@ -4,11 +4,11 @@ var MAX_VOTES_PER_USER = 3;
 
 // Add +1 to a location
 exports.vote = function(req, res) {
-  var user = req.session.user;
-  if (!user) {
+  if (!req.user) {
     res.send(401, "User must be logged in to vote for this location");
     return;
   }
+  var user = req.user.user;
   var locationId = parseInt(req.params.id);
   // Get the votes for a location id 
   locations.findById(locationId, null, function(docs, db) {

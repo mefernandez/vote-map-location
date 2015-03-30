@@ -23,9 +23,7 @@ describe('A user voting for a location', function() {
       params: {
         id: 1
       },
-      session: {
-        user: 'test'
-      }
+      user: 'test'
   	};
 
   	var res = {
@@ -47,9 +45,7 @@ describe('A user voting for a location', function() {
       params: {
         id: 1
       },
-      session: {
-        user: 'test'
-      }
+      user: 'test'
     };
     var res = {
       send: function(code, msg) {
@@ -71,9 +67,7 @@ describe('A user voting for a location', function() {
       params: {
         id: 1
       },
-      session: {
-        user: null
-      }
+      user: null
     };
     var res = {
       send: function(code, msg) {
@@ -95,9 +89,7 @@ describe('A user voting for a location', function() {
       params: {
         id: 1
       },
-      session: {
-        user: 'test'
-      }
+      user: 'test'
     };
     var res = {
       send: function(vote) {
