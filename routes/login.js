@@ -1,8 +1,42 @@
 var request = require('superagent');
 
 exports.oauth2callback = function(req, res) {
-  console.log("oAuth Callback!!!!");
-  res.send("Ok");
+  var input = {
+      client_id: process.env.GITHUB_CLIENT_ID,
+      client_secret: process.env.GITHUB_CLIENT_SECRET,
+      code: req.query.code
+    };
+
+    console.log("POST: https://github.com/login/oauth/access_token")
+
+    request
+      .post('https://github.com/login/oauth/access_token')
+      .send(input)
+      .set('Accept', 'application/json')
+      .set('User-Agent', process.env.GITHUB_APPLICATION_NAME)
+      .end(function(gitHubResp) {
+        console.log("GitHub Response:");
+        console.log(JSON.stringify(gitHubResp));
+        var token = gitHubResp.body.access_token;
+        if (token) {
+          console.log("GET: https://api.github.com/user")
+          request
+            .get('https://api.github.com/user')
+            .query({
+              access_token: token
+            })
+            .set('User-Agent', process.env.GITHUB_APPLICATION_NAME)
+            .end(function(userInfoResp) {
+              console.log("GitHub Response:");
+              console.log(JSON.stringify(userInfoResp));
+              req.session.user = userInfoResp.body;
+              req.session.token = token;
+              res.redirect("/");
+            });
+        } else {
+          res.send(403, gitHubResp.body);
+        }
+      });
 }
 
 exports.storeprofile = function(req, res) {

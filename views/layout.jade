@@ -2,9 +2,11 @@ doctype html
 html
   head
     title= title
-    meta(name="google-signin-client_id", content=process.env.GOOGLE_CLIENT_ID)
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css')
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css')
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
-    script(src="https://apis.google.com/js/platform.js",async,defer)
+    link(rel='stylesheet', href='/javascripts/lib/bootstrap-social.css')
     script#marker-content-info-template(type='text/x-handlebars-template').
       <div class="location-info">
         <h1 class="firstHeading"><a href="{{link}}" target="_blank">{{title}}</a></h1>
@@ -13,9 +15,17 @@ html
       </div>    
     script(type='text/javascript', src='javascripts/lib/jquery.js')
     script(type='text/javascript', src='javascripts/lib/handlebars.js')
+    script(type='text/javascript', src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js')
     script(type='text/javascript', src='https://maps.googleapis.com/maps/api/js?sensor=false')
     script(type='text/javascript', src='javascripts/main.js')
     script(type='text/javascript', src='javascripts/signin.js')
 body
-    div(class="g-signin2",data-onsuccess="onSignIn")
-    div#map-canvas
+  nav.navbar.navbar-default
+    div.container-fluid
+      div.collapse.navbar-collapse
+        ul.nav.navbar-nav
+          li
+            a.btn.btn-block.btn-social.btn-github(href="https://github.com/login/oauth/authorize?client_id=" + process.env.GITHUB_CLIENT_ID)
+              i.fa.fa-github
+              | Sign in with GitHub
+  div#map-canvas
