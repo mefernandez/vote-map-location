@@ -88,8 +88,8 @@ describe('A Locations Repository', function() {
       locations.findAllByVotesDesc(db, function(docs, db) {
         assert.equal(3, docs.length);
         assert.equal(10, docs[0].votes);
-        assert.equal(5, docs[0].votes);
-        assert.equal(2, docs[0].votes);
+        assert.equal(5, docs[1].votes);
+        assert.equal(2, docs[2].votes);
         db.close();
         done();
       });
