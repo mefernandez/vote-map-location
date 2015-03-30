@@ -1,4 +1,20 @@
-var request = require('superagent');
+var request     = require('superagent');
+var repository  = require('../repositories/users-repository');
+
+exports.authenticate = function(user, pass, fn){
+  repository.findByUserAndPass(user, pass, null, function(docs, db) {
+    console.log("Found users: " + docs.length);
+    if (docs.length < 1) {
+      db.close();
+      fn(new Error('Invalid User and Pass'), null);
+    } else {
+      var user = docs[0];
+      console.log("Return user: " + JSON.stringify(user));
+      db.close();
+      fn(null, user);
+    }
+  });
+}
 
 exports.oauth2callback = function(req, res) {
   console.log("oAuth Callback!!!!");

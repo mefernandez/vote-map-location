@@ -30,7 +30,6 @@ bower_components
 
 # MongoDB data
 data
-locations.csv
-import-data.sh
-import-mongolab.sh
+*-mongolab.sh
+*-mongolab.csv
 setenv.sh
