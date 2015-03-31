@@ -1,8 +1,13 @@
+var repository = require("../repositories/locations-repository.js");
 
 /*
  * GET home page.
  */
+exports.index = function(req, res) {
 
-exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+  repository.findAllByVotesDesc(null, function(docs, db) {
+    db.close();
+    res.render('index', {locations: docs});
+  });
+
 };

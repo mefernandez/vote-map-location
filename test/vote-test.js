@@ -45,7 +45,9 @@ describe('A user voting for a location', function() {
       params: {
         id: 1
       },
-      user: 'test'
+      user: {
+        user: 'test'
+      }
     };
     var res = {
       send: function(code, msg) {

@@ -1,7 +1,9 @@
 doctype html
 html
   head
-    title= title
+    title Vote Map Location
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css')
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
     script#marker-content-info-template(type='text/x-handlebars-template').
       <div class="location-info">
@@ -13,8 +15,34 @@ html
       </div>    
     script(type='text/javascript', src='javascripts/lib/jquery.js')
     script(type='text/javascript', src='javascripts/lib/handlebars.js')
+    script(type='text/javascript', src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js')
     script(type='text/javascript', src='https://maps.googleapis.com/maps/api/js?sensor=false')
     script(type='text/javascript', src='javascripts/main.js')
     script(type='text/javascript', src='javascripts/signin.js')
 body
-    div#map-canvas
+  nav.navbar.navbar-default
+    div.container-fluid
+      div.collapse.navbar-collapse
+        ul.nav.navbar-nav
+          li.dropdown
+            a.dropdown-toggle(href="#", data-toggle="dropdown", role="button", aria-expanded="false") Top 5 Locations
+              span.caret
+            ul.dropdown-menu(role="menu")
+              li
+                if locations.length > 0
+                  table.table
+                    each location, index in locations
+                      tr
+                        td(rowspan=3)
+                          h1= index+1
+                        td(rowspan=3)
+                          img(src=location.img, width=90)
+                        td
+                          a.text-nowrap(href="#")= location.title
+                      tr
+                        td= location.address
+                      tr
+                        td= "Votes: " + location.votes
+                else
+                  a(href="#") No votes yet!
+  div#map-canvas
