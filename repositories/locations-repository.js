@@ -148,7 +148,7 @@ exports.findAllByVotesDesc = function(db, callback) {
     // Get the documents collection
     var collection = db.collection('locations');
     // Find some documents
-    collection.find({}).sort({votes: -1}).limit(5).toArray(function(err, docs) {
+    collection.find({votes: { $gt: 0 } }).sort({votes: -1}).limit(5).toArray(function(err, docs) {
       assert.equal(err, null);
       callback(docs, db);
     });
